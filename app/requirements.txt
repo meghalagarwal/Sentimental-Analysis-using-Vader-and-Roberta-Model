@@ -10,4 +10,3 @@ torchvision
 torchaudio
 wget
 scipy
-numba

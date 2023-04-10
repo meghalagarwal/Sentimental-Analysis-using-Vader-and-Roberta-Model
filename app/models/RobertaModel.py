@@ -2,7 +2,6 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from scipy.special import softmax
 from tqdm import tqdm
-from numba import jit, cuda
 
 class RobertaModel():
     def __init__(self) -> None:
@@ -10,14 +9,13 @@ class RobertaModel():
         self.tokenizer = AutoTokenizer.from_pretrained(self.PRETRAINED_MODEL)
         self.model = AutoModelForSequenceClassification.from_pretrained(self.PRETRAINED_MODEL)
     
-    @jit(target_backend='cuda')
     def polarity_scoring(self, dataframe: object) -> dict:
         result = {}
         for index, rows in tqdm(dataframe.iterrows(), total=len(dataframe)):
             try:
                 text = rows['reviewText']
                 encoded_text = self.tokenizer(text, return_tensors='pt')
-                output = self.model(*encoded_text)
+                output = self.model(**encoded_text)
                 scores = output[0][0].detach().numpy()
                 scores = softmax(scores)
                 result[index] = {
@@ -27,6 +25,6 @@ class RobertaModel():
                 }
                 
             except RuntimeError:
-                print(f'Broke for Index: {index}\n Text: {text}')
+                print(f'Broke for Index: {index}')
 
         return result

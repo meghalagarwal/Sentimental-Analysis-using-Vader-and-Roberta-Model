@@ -40,7 +40,7 @@ if __name__ == "__main__":
     review_data = video_games_data[['overall', 'reviewerName', 'reviewText']]
 
     '''Spliting the data into training and testing'''
-    train_review_data = review_data[:100] #.sample(frac=0.25)
+    train_review_data = review_data.sample(frac=0.25)
 
     '''Understanding of Data by measure of Central tendency and Dispersion'''
     d_analysis.understanding_data(train_review_data)
@@ -67,3 +67,5 @@ if __name__ == "__main__":
     d_analysis.validation_scoring(title='Roberta\'s Neutral Score by Video Games Star Review', dataframe=train_review_data, x_axis='overall', y_axis='roberta_neutral', ax=ax[1][2])
     plt.tight_layout()
     plt.show()
+
+    print(train_review_data.head())
