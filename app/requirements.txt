@@ -1,0 +1,13 @@
+ndjson
+seaborn
+nltk
+matplotlib
+pyqt5
+tqdm
+transformers
+torch
+torchvision
+torchaudio
+wget
+scipy
+numba
